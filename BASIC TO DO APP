@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>To-Do App</title>
+  <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+  <h1>To-Do App</h1>
+
+  <h2>Add Task</h2>
+  <input type="text" id="taskInput" placeholder="Enter task">
+  <button onclick="addTask()">Add</button>
+
+  <h2>Pending Tasks</h2>
+  <ul id="pendingList"></ul>
+
+  <h2>Completed Tasks</h2>
+  <ul id="completedList"></ul>
+
+  <script src="script.js"></script>
+</body>
+</html>
+
+body {
+  font-family: Arial, sans-serif;
+  margin: 20px;
+  color: white;
+  font-size: 15px;
+}
+
+h1, h2 {
+  margin-bottom: 10px;
+  margin-top: 10px;
+  color: black;
+  width: 16%;
+}
+
+input[type="text"] {
+  padding: 15px;
+  margin-right: 5px;
+}
+
+button {
+  padding: 15px 10px;
+}
+
+// Array to store tasks
+let tasks = [];
+
+// Function to add a new task
+function addTask() {
+  const taskInput = document.getElementById("taskInput");
+  const taskText = taskInput.value.trim();
+  taskInput.value = "";
+
+  if (taskText !== "") {
+    const task = {
+      text: taskText,
+      added: new Date(),
+      completed: null
+    };
+
+    tasks.push(task);
+    updateLists();
+  }
+}
+
+// Function to update the pending and completed task lists
+function updateLists() {
+  const pendingList = document.getElementById("pendingList");
+  const completedList = document.getElementById("completedList");
+
+  // Clear the lists
+  pendingList.innerHTML = "";
+  completedList.innerHTML = "";
+
+  // Iterate over the tasks and add them to the appropriate list
+  tasks.forEach(task => {
+    const listItem = document.createElement("li");
+    listItem.textContent = task.text;
+
+    if (task.completed) {
+      const completedDate = new Date(task.completed);
+      listItem.textContent += " (Completed on " + completedDate.toLocaleString() + ")";
+      completedList.appendChild(listItem);
+    } else {
+      const addButton = document.createElement("button");
+      addButton.textContent = "Complete";
+      addButton.addEventListener("click", function() {
+        completeTask(task);
+      });
+
+      listItem.appendChild(addButton);
+      pendingList.appendChild(listItem);
+    }
+  });
+}
+
+// Function to mark a task as completed
+function completeTask(task) {
+  task.completed = new Date();
+  updateLists();
+}
+
+// Initialize the lists
+updateLists();
