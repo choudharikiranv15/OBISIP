@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Simple Calculator</title>
+  <style>
+    .calculator {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 5px;
+      padding: 10px;
+      max-width: 300px;
+      margin: 0 auto;
+    }
+    .calculator button {
+      padding: 10px;
+      font-size: 18px;
+    }
+    .result {
+      grid-column: 1 / -1;
+      padding: 10px;
+      text-align: right;
+      background-color: #f4f4f4;
+      font-size: 20px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div class="calculator">
+    <div class="result"></div>
+    <button>1</button>
+    <button>2</button>
+    <button>3</button>
+    <button>+</button>
+    <button>4</button>
+    <button>5</button>
+    <button>6</button>
+    <button>-</button>
+    <button>7</button>
+    <button>8</button>
+    <button>9</button>
+    <button>*</button>
+    <button>0</button>
+    <button>=</button>
+    <button>/</button>
+    <button>C</button>
+  </div>
+
+  <script>
+    // Get required elements
+    const resultElement = document.querySelector('.result');
+    const buttons = document.querySelectorAll('.calculator button');
+
+    // Add event listener to each button
+    buttons.forEach(button => {
+      button.addEventListener('click', calculate);
+    });
+
+    // Function to handle calculations
+    function calculate(event) {
+      const clickedButtonValue = event.target.textContent;
+      if (clickedButtonValue === '=') {
+        // Calculate and display result
+        resultElement.textContent = eval(resultElement.textContent);
+      } else if (clickedButtonValue === 'C') {
+        // Clear the result
+        resultElement.textContent = '';
+      } else {
+        // Append the clicked button value to the result
+        resultElement.textContent += clickedButtonValue;
+      }
+    }
+  </script>
+</body>
+</html>
